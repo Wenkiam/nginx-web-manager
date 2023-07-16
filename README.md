@@ -68,7 +68,7 @@ web服务端口，默认8080
 用于证书申请的身份凭证之一
 
 #### url
-ACME服务器目录URL，默认值https://acme-v02.api.letsencrypt.org/directory，通常不需要动
+ACME服务器目录URL，默认值 https://acme-v02.api.letsencrypt.org/directory ，通常不需要动
 
 #### dns
 你的域名解析服务商，基本主流的域名解析服务商都支持，不同的域名提供商需要的凭证信息不同，这些凭证信息可以配置在环境变量里，也可以在服务启动后在页面管理里面配置。这些域名解析商需要的环境变量详情可查看：[https://go-acme.github.io/lego/dns/](https://go-acme.github.io/lego/dns/)
