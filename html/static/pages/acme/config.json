@@ -1,0 +1,261 @@
+{
+  "title": "证书管理",
+  "type": "page",
+  "initApi": "/acme/config",
+  "name" : "config",
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "申请证书",
+      "primary": true,
+      "dialog": {
+        "title": "申请证书",
+        "body": [
+          {
+            "title": "",
+            "type": "form",
+            "reload": "config",
+            "name": "sample-edit-form",
+            "api": "/acme/generate",
+            "controls": [
+              {
+                "name": "domains",
+                "label": "域名",
+                "type": "input-array",
+                "inline": true,
+                "items": {
+                  "type": "text"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "button",
+      "label": "修改配置",
+      "id": "btn_change",
+      "primary": true,
+      "onEvent": {
+        "click": {
+          "actions": [
+            {
+              "actionType": "enabled",
+              "componentId": "acmeForm"
+            },
+            {
+              "actionType": "hidden",
+              "componentId": "btn_change"
+            },
+            {
+              "actionType": "show",
+              "componentId": "btn_cancel"
+            },
+            {
+              "actionType": "show",
+              "componentId": "btn_submit"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "body":[
+    {
+      "title": "acme配置",
+      "type": "form",
+      "api": "/acme/config",
+      "reload": "config",
+      "id": "acmeForm",
+      "actions": [{
+        "type": "button",
+        "label": "取消",
+        "id": "btn_cancel",
+        "hidden": true,
+        "onEvent": {
+          "click": {
+            "actions": [
+              {
+                "actionType": "disabled",
+                "componentId": "acmeForm"
+              },
+              {
+                "actionType": "hidden",
+                "componentId": "btn_cancel"
+              },
+              {
+                "actionType": "hidden",
+                "componentId": "btn_submit"
+              },
+              {
+                "actionType": "show",
+                "componentId": "btn_change"
+              }
+            ]
+          }
+        }
+      },
+        {
+          "type": "submit",
+          "label": "提交",
+          "primary": true,
+          "id": "btn_submit",
+          "hidden": true
+        }],
+      "disabled": true,
+      "mode": "horizontal",
+      "controls": [
+        {
+          "type": "text",
+          "name": "filePath",
+          "required": true,
+          "label": "存放目录:"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "email",
+          "required": true,
+          "label": "email:"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "url",
+          "required": true,
+          "label": "CADirURL:"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "select",
+          "name": "dns",
+          "required": true,
+          "label": "域名解析商:",
+          "searchable": true,
+          "source": "/acme/providers"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "input-kv",
+          "name": "envs",
+          "label": "环境变量:",
+          "labelRemark": {
+            "content": "域名解析商需要的环境变量，请参考https://go-acme.github.io/lego/dns/"
+          }
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "cron",
+          "id": "cronExp",
+          "label": "定时任务cron表达式:",
+          "disabledOn": "${enableCron == false}",
+          "mode": "inline",
+          "labelRemark": {
+            "content": "证书过期检测定时任务表达式"
+          }
+        },
+        {
+          "type": "switch",
+          "name": "cronEnable",
+          "onText": "开启",
+          "offText": "关闭",
+          "mode": "inline",
+          "onEvent": {
+            "change": {
+              "actions": [
+                {
+                  "actionType": "enabled",
+                  "componentId": "cronExp",
+                  "expression": "${cronEnable}"
+                },
+                {
+                  "actionType": "disabled",
+                  "componentId": "cronExp",
+                  "expression": "${cronEnable == false}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "crud",
+      "name": "sample",
+      "api": "/acme/certs",
+      "columns": [
+        {
+          "name": "file",
+          "label": "文件名",
+          "sortable": true
+        },
+        {
+          "name": "info",
+          "label": "详情",
+          "type": "html",
+          "html": "<pre>${info}</pre>",
+          "sortable": false
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button",
+              "label": "续期",
+              "level": "primary",
+              "actionType": "ajax",
+              "confirmText": "您确认要续期?",
+              "api": {
+                "method": "post",
+                "url": "/acme/renew",
+                "dataType": "form",
+                "data": {
+                  "file": "${file}"
+                }
+              }
+            },
+            {
+              "type": "button",
+              "label": "下载",
+              "level": "primary",
+              "actionType": "ajax",
+              "api": {
+                "method": "post",
+                "url": "/acme/download",
+                "dataType": "form",
+                "responseType": "blob",
+                "data": {
+                  "path": "${path}"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "affixHeader": true,
+      "columnsTogglable": "auto",
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "combineNum": 0,
+      "bodyClassName": "panel-default"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+{
+  "type": "page",
+  "initApi": "/nginx/config/path",
+  "title": "当前目录：${path}",
+  "remark": null,
+  "name": "configs",
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "dialog",
+      "label": "新增配置",
+      "primary": true,
+      "dialog": {
+        "title": "新增配置",
+        "body": [
+          {
+            "title": "",
+            "type": "form",
+            "redirect": "/nginx/configs",
+            "name": "sample-edit-form",
+            "api": "/nginx/config/save",
+            "controls": [
+              {
+                "type": "text",
+                "name": "name",
+                "label": "name",
+                "required": true,
+                "inline": false,
+                "description": "",
+                "descriptionClassName": "help-block",
+                "placeholder": "",
+                "addOn": null
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "textarea",
+                "name": "content",
+                "label": "content",
+                "required": true
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "checkbox",
+                "name": "reload",
+                "option": "重启nginx",
+                "value": true
+              }
+            ]
+          }
+        ]
+      }
+    },{
+      "type": "button",
+      "actionType": "dialog",
+      "label": "修改目录",
+      "primary": true,
+      "dialog": {
+        "title": "修改目录",
+        "body": [
+          {
+            "title": "",
+            "type": "form",
+            "reload": "configs",
+            "name": "sample-edit-form",
+            "api": "/nginx/config/path",
+            "controls": [
+              {
+                "type": "text",
+                "name": "path",
+                "label": "path",
+                "required": true,
+                "inline": false,
+                "description": "",
+                "descriptionClassName": "help-block",
+                "placeholder": "",
+                "addOn": null
+              }
+            ]
+          }
+        ]
+      }
+    },{
+      "type": "button",
+      "label": "reload nginx",
+      "primary": true,
+      "actionType": "ajax",
+      "api": "get:/nginx/reload"
+    }
+  ],
+  "body": [
+    {
+      "type": "crud",
+      "name": "sample",
+      "api": "/nginx/configs",
+      "columns": [
+        {
+          "name": "name",
+          "label": "name",
+          "sortable": true
+        },
+        {
+          "name": "content",
+          "label": "content",
+          "type": "html",
+          "html": "${LEFT(content,100)} ...",
+          "sortable": false
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": "",
+          "buttons": [
+            {
+              "type": "button",
+              "label": "详情",
+              "level": "primary",
+              "actionType": "dialog",
+              "dialog": {
+                "title": "配置详情",
+                "size" : "full",
+                "body": {
+                  "type": "html",
+                  "html": "<pre>${content}</pre>"
+                }
+              }
+            },
+            {
+              "type": "button",
+              "actionType": "dialog",
+              "label": "修改",
+              "level": "primary",
+              "dialog": {
+                "title": "修改配置",
+                "size" : "full",
+                "body": [
+                  {
+                    "title": "",
+                    "type": "form",
+                    "redirect": "/nginx/configs",
+                    "name": "sample-edit-form",
+                    "api": "/nginx/config/save",
+                    "controls": [
+                      {
+                        "type": "text",
+                        "name": "name",
+                        "label": "name",
+                        "required": true,
+                        "inline": false,
+                        "description": "",
+                        "descriptionClassName": "help-block",
+                        "placeholder": "",
+                        "addOn": null
+                      },
+                      {
+                        "type": "divider"
+                      },
+                      {
+                        "type": "textarea",
+                        "name": "content",
+                        "label": "content",
+                        "required": true
+                      },
+                      {
+                        "type": "divider"
+                      },
+                      {
+                        "type": "checkbox",
+                        "name": "reload",
+                        "option": "重启nginx",
+                        "value": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "type": "button",
+              "label": "删除",
+              "level": "danger",
+              "actionType": "ajax",
+              "confirmText": "您确认要删除?",
+              "api": "delete:/nginx/config/${name}"
+            }
+          ],
+          "placeholder": "-",
+          "fixed": "right"
+        }
+      ],
+      "affixHeader": true,
+      "columnsTogglable": "auto",
+      "placeholder": "暂无数据",
+      "tableClassName": "table-db table-striped",
+      "headerClassName": "crud-table-header",
+      "footerClassName": "crud-table-footer",
+      "toolbarClassName": "crud-table-toolbar",
+      "combineNum": 0,
+      "bodyClassName": "panel-default"
+    }
+  ]
+}

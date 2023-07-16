@@ -1,0 +1,36 @@
+{
+  "status": 0,
+  "msg": "",
+  "data": {
+    "pages": [
+      {
+        "label": "Home",
+        "url": "/",
+        "schema": {
+          "type": "page",
+          "title": "welcome",
+          "body": {
+            "type": "markdown",
+            "src": "/assets/static/pages/intro.md"
+          }
+        }
+      },
+      {
+        "label": "nginx admin",
+        "children": [
+          {
+            "label": "nginx管理",
+            "url": "/nginx/configs",
+            "icon": "fa fa-list",
+            "schemaApi": "get:/assets/static/pages/nginx/configs.json"
+          },{
+            "label": "证书管理",
+            "url": "/acme/config",
+            "icon": "fa fa-list",
+            "schemaApi": "get:/assets/static/pages/acme/config.json"
+          }
+        ]
+      }
+    ]
+  }
+}
