@@ -46,6 +46,10 @@ OPTIONS:
    --email value           Email used for cert registration and recovery contact [$EMAIL]
    --log value             log directory [$NWM_LOG]
    --nginx.conf value      Directory of nginx config files (default: "/etc/nginx/conf.d/") [$NGINX_CONF]
+   --oidc.client value     clientId of oauth [$OIDC_CLIENT]
+   --oidc.secret value     Client Secret of oauth [$OIDC_SECRET]
+   --oidc.site value       site of oauth server [$OIDC_SITE]
+   --password value        password to login system [$AUTH_PASSWORD]
    --path value            Directory to use for storing the data. (default: ".") [$CERT_PATH]
    --port value, -p value  port of web server (default: 8080) [$PORT]
    --url value             CA hostname (and optionally :port). The server certificate must be trusted in order to avoid further modifications to the client.(default: https://acme-v02.api.letsencrypt.org/directory) [$CA_URL]
@@ -83,3 +87,18 @@ ACME服务器目录URL，默认值 https://acme-v02.api.letsencrypt.org/director
 
 #### --cron
 证书过期检查定时任务cron表达式，默认 0 0 0 * * ?，即每天0点执行
+
+### 登录认证
+v0.0.2版本新增了登录认证功能，支持简单密码登录和通过oidc登录，如果没有启动时配置相关参数，则不启用认证功能，如果同时设置了简单密码和oidc相关参数，则只会开启oidc认证。相关参数说明如下所示
+
+#### --password
+系统登录密码
+
+#### --oidc.client
+ClientID 的值
+
+#### --oidc.secret
+ClientSecret 的值
+
+#### --oidc.site
+认证服务器地址，以keycloak为例，这个值为 https://your_keycloak_hostname/realms/your_realm
