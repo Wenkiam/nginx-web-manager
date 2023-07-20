@@ -1,4 +1,4 @@
-一个简单的nginx配置web管理程序，提供了配置管理和证书管理两个功能。
+一个简单的nginx配置web管理程序，提供了配置管理和证书管理两个功能。[示例网站](https://nwm-demo.starcloud.cc)
 
 ### 配置管理
 配置管理提供了配置修改和nginx reload功能，可以在页面上修改指定目录下（默认是/etc/nginx/conf.d，可在页面修改）的nginx配置并reload nginx使配置生效。
@@ -51,6 +51,8 @@ OPTIONS:
    --url value             CA hostname (and optionally :port). The server certificate must be trusted in order to avoid further modifications to the client.(default: https://acme-v02.api.letsencrypt.org/directory) [$CA_URL]
 
 ```
+### 手动启动示例
+nwm start --path /etc/nginx/ssl --log /logs
 
 ### 参数说明
 程序运行参数可以在命令行指定，也可以通过环境变量指定，对应的环境变量可以通过帮助命令查看
