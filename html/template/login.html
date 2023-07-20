@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <link
+            rel="stylesheet"
+            title="default"
+            href="assets/static/sdk/sdk.css"
+    />
+    <link
+            rel="stylesheet"
+            href="assets/static/sdk/helper.css"
+    />
+    <script src="assets/static/sdk/sdk.js"></script>
+    <script src="https://unpkg.com/vue@2"></script>
+    <script src="https://unpkg.com/history@4.10.1
+/umd/history.js"></script>
+    <style>
+        html,
+        body,
+        .app-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="root" class="app-wrapper"></div>
+<script>
+    (function () {
+        let amis = amisRequire('amis/embed');
+        // 通过替换下面这个配置来生成不同页面
+        let amisJSON = {
+            type: 'page',
+            title: '登录',
+            body: {
+                type: 'form',
+                mode: 'horizontal',
+                api: {
+                    method: 'post',
+                    url: '/login',
+                    dataType : 'form',
+                    adaptor: function (payload, response) {
+                        if (response.status === 200){
+                            location.href = "/"
+                        }
+                        return payload
+                    }
+                },
+                body: [
+                    {
+                        label: '密码',
+                        type: 'input-password',
+                        name: 'password'
+                    }
+                ]
+            }
+        };
+        amis.embed('#root', amisJSON);
+    })();
+</script>
+</body>
+</html>
+

@@ -9,6 +9,7 @@ import (
 
 func setupACMERouters() {
 	group := engine.Group("/acme")
+	group.Use(validate)
 	group.POST("/generate", generateCerts)
 	group.GET("/config", acmeConfig)
 	group.GET("/certs", loadCertInfoFromFiles)

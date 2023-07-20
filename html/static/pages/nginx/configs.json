@@ -69,15 +69,11 @@
             "api": "/nginx/config/path",
             "controls": [
               {
-                "type": "text",
+                "type": "input-text",
                 "name": "path",
                 "label": "path",
                 "required": true,
-                "inline": false,
-                "description": "",
-                "descriptionClassName": "help-block",
-                "placeholder": "",
-                "addOn": null
+                "source": "/nginx/path/history"
               }
             ]
           }

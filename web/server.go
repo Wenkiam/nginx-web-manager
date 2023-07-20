@@ -15,6 +15,7 @@ var (
 	port   = 8080
 	engine *gin.Engine
 	acme   *acme2.ACME
+	Flags  = make([]cli.Flag, 0)
 )
 
 func Setup(ctx *cli.Context) {
@@ -26,6 +27,12 @@ func Setup(ctx *cli.Context) {
 		log.Printf("ACME setup failed: %v. You can setup ACME from web console later", err)
 	} else {
 		log.Printf("ACME setup success")
+	}
+	setupSession()
+	initPasswordAuth(ctx)
+	initOIDC(ctx)
+	if auth != nil {
+		engine.GET("/logout", auth.logout)
 	}
 	setupRouters()
 }
@@ -40,7 +47,7 @@ func StartServer() error {
 func setupRouters() {
 	engine.StaticFS("assets", http.FS(html.Static))
 	engine.SetHTMLTemplate(template.Must(template.New("").ParseFS(html.Template, "template/**")))
-	engine.GET("/", index)
+	engine.GET("/", validate, index)
 
 	setupNginxRouters()
 	setupACMERouters()

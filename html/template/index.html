@@ -47,9 +47,14 @@
 
         const app = {
           type: 'app',
-          brandName: 'Admin',
+          brandName: 'Nginx Web Manager',
           logo: 'assets/static/public/logo.png',
-
+          header: {
+            type: 'tpl',
+            inline: false,
+            className: 'w-full',
+            tpl: '<div class="flex justify-between"><div></div><div><a href="/logout">注销</a></div></div>'
+          },
           // footer: '<div class="p-2 text-center bg-light">底部区域</div>',
           // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',
           // asideAfter: '<div class="p-2 text-center">菜单后面区域</div>',
@@ -115,7 +120,6 @@
 
           return decodeURI(pathname) === link;
         }
-        localStorage.setItem("vd","[[${vd}]]");
         let amisInstance = amis.embed(
           '#root',
           app,
@@ -144,16 +148,13 @@
 
               history[replace ? 'replace' : 'push'](location);
             },
+            requestAdaptor: (api) =>{
+              api.headers["ajax"]=true
+              return api;
+            },
             responseAdaptor: (api, response, query, request) =>{
-              console.log(api);
-              console.log(response)
-              if (response.hasOwnProperty("status")){
-                console.log(response["status"])
-                if (response["status"] === 302){
-                  if (response.hasOwnProperty("url")) {
-                    location.href = response["url"];
-                  }
-                }
+              if (response.hasOwnProperty("status") && response["status"] === 302 && response.hasOwnProperty("url")){
+                  window.location.href = response["url"];
               }
               return response;
             },

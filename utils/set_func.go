@@ -46,3 +46,13 @@ func (set *Set[E]) Foreach(f Consumer[E]) {
 		f(k.(E))
 	}
 }
+
+func (set *Set[E]) ToSlice() []E {
+	slice := make([]E, len(set.container))
+	index := 0
+	set.Foreach(func(e E) {
+		slice[index] = e
+		index++
+	})
+	return slice
+}

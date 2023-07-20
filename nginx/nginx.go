@@ -31,7 +31,7 @@ func execNginxCmd(commands ...string) (string, error) {
 	args := commands[1:]
 	name := commands[0]
 	if container != "" {
-		args = append([]string{"exec", "-i", container}, commands...)
+		args = append([]string{"exec", container}, commands...)
 		name = "docker"
 	}
 	cmd := exec.Command(name, args...)

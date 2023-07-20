@@ -8,7 +8,7 @@ mkdir -p $dir
 cp $file $dir
 ln -s $dir/$file /usr/bin/
 serviceFile=/usr/lib/systemd/system/nwm.service
-if [ ! -f serviceFile ]; then
+if [ ! -f $serviceFile ]; then
     touch $serviceFile
 fi
 

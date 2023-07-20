@@ -41,3 +41,15 @@ func errorWithMsgAndCode(context *gin.Context, msg string, code int) {
 		code, msg, nil,
 	})
 }
+
+func redirect(ctx *gin.Context, url string) {
+	if ctx.Request.Header.Get("Ajax") == "true" {
+		ctx.JSON(http.StatusOK, map[string]interface{}{
+			"status": 302,
+			"msg":    "",
+			"url":    url,
+		})
+	} else {
+		ctx.Redirect(http.StatusFound, url)
+	}
+}
