@@ -10,7 +10,7 @@
 
 ### 使用方法
 下载对应平台的可执行程序，在命令行运行。linux用户提供了service方式运行，执行install.sh脚本即可。提供了和nginx一起在docker中运行的dockerfile，该镜像基于
-nginx docker 官方镜像。
+nginx docker 官方镜像。也可以直接从docker hub下载：https://hub.docker.com/repository/docker/wenkiam/nginx/general
 
 #### 查看帮助信息
 ```shell
