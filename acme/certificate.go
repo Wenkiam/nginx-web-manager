@@ -92,6 +92,7 @@ func (acme *ACME) LoadCerts() ([]*CertInfo, error) {
 }
 
 func loadFromFile(file string) (*CertInfo, error) {
+	log.Printf("try load cert file:%s\n", file)
 	bytes, err := os.ReadFile(file)
 	if err != nil {
 		return nil, err

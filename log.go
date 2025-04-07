@@ -21,12 +21,12 @@ func setupLog(ctx *cli.Context) error {
 		return fmt.Errorf("create log directory failed:%v", err)
 	}
 
-	ginLog, err := os.OpenFile(filepath.Join(logPath, "gin.log"), os.O_RDWR|os.O_CREATE, 0644)
+	ginLog, err := os.OpenFile(filepath.Join(logPath, "gin.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		return fmt.Errorf("setup gin log failed:%v", err)
 	}
 	gin.DefaultWriter = ginLog
-	sysLog, err := os.OpenFile(filepath.Join(logPath, "sys.log"), os.O_RDWR|os.O_CREATE, 0644)
+	sysLog, err := os.OpenFile(filepath.Join(logPath, "sys.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		return fmt.Errorf("setup sys log failed:%v", err)
 	}

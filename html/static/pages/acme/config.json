@@ -225,7 +225,7 @@
                 "url": "/acme/renew",
                 "dataType": "form",
                 "data": {
-                  "file": "${file}"
+                  "file": "${path}"
                 }
               }
             },

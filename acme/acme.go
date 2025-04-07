@@ -113,7 +113,7 @@ func (acme *ACME) GenerateCerts(domains []string) error {
 	}
 	log.Println("request for certificates success")
 	if err = acme.SaveResource(certificates); err != nil {
-		return fmt.Errorf("save certs failed:%v", err)
+		return fmt.Errorf("save cert files for %s failed:%v", domains, err)
 	}
 	return nil
 }

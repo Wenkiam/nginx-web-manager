@@ -36,11 +36,12 @@ func (acme *ACME) Run() {
 	reloadNginx := false
 	for _, cert := range certs {
 		notAfter := int(time.Until(cert.NotAfter).Hours() / 24.0)
+		log.Printf("try renew cert file for %s, path:%s, file:%s", cert.Domains, cert.Path, cert.File)
 		if notAfter > 3 {
 			log.Printf("cert of %s expire in %d days, no renewal", cert.Domains, notAfter)
 			continue
 		}
-		if err := acme.Renew(cert.File); err != nil {
+		if err := acme.Renew(cert.Path); err != nil {
 			log.Printf("renew cert of %s failed:%v", cert.Domains, err)
 		} else {
 			log.Printf("renew cert of %s success", cert.Domains)

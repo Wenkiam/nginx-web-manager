@@ -27,6 +27,7 @@ const (
 
 func (acme *ACME) SaveResource(certRes *certificate.Resource) error {
 	domain := certRes.Domain
+	log.Printf("save cert file for %s", domain)
 	err := acme.WriteFile(domain, certExt, certRes.Certificate)
 	if err != nil {
 		log.Printf("Unable to save Certificate for domain %s\n\t%v", domain, err)
@@ -66,7 +67,7 @@ func (acme *ACME) SaveResource(certRes *certificate.Resource) error {
 func (acme *ACME) WriteFile(domain, extension string, data []byte) error {
 	var baseFileName string
 	baseFileName = sanitizedDomain(domain)
-	dir := acme.pathOf(domain)
+	dir := acme.pathOf(baseFileName)
 	info, err := os.Stat(dir)
 	if info != nil && !info.IsDir() {
 		return fmt.Errorf("%s exists,but not a directory", dir)
